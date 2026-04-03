@@ -12,8 +12,11 @@ app.secret_key = os.getenv('SECRET_KEY')
 ADMIN_USERNAME = 'nelli'
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD') 
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 def get_db_connection():
-    conn = sqlite3.connect('nelli.db')
+    db_path = os.path.join(basedir, 'nelli.db')
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -40,7 +43,7 @@ def add_project():
     title = request.form['title']
     year = request.form['year']
     status = request.form['status']
-    area = request.form['area'] # Grab the new area
+    area = request.form['area'] 
     description = request.form['description']
     image_file = request.form['image_file']
 
@@ -76,7 +79,7 @@ def update_project(id):
     title = request.form['title']
     year = request.form['year']
     status = request.form['status']
-    area = request.form['area'] # Grab the updated area
+    area = request.form['area'] 
     description = request.form['description']
     image_file = request.form['image_file']
 
@@ -112,9 +115,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-        # Check if the credentials match
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            session['logged_in'] = True  # Give them the VIP wristband!
+            session['logged_in'] = True  
             return redirect(url_for('admin'))
         else:
             error = "Invalid username or password. Please try again."
@@ -123,8 +125,10 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('logged_in', None)  # Cut off the VIP wristband
+    session.pop('logged_in', None) 
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # On Render, the port is usually assigned via environment variable
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
