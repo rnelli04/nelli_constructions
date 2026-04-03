@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Project | Nelli Constructions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: #011028; padding: 50px;">
+
+    <div class="admin-container">
+        <h1 style="color: white; margin-bottom: 30px; font-family: 'Montserrat';">Edit Project</h1>
+        
+        <div class="admin-card">
+            <form action="{{ url_for('update_project', id=project['id']) }}" method="POST" class="contact-form">
+                
+                <label style="color: #4299e1; font-weight: bold;">Project Title</label>
+                <input type="text" name="title" value="{{ project['title'] }}" required>
+                
+                <label style="color: #4299e1; font-weight: bold;">Year</label>
+                <input type="number" name="year" value="{{ project['year'] }}" required>
+                
+                <label style="color: #4299e1; font-weight: bold;">Status</label>
+                <select name="status" class="admin-select" required>
+                    <option value="Completed" {% if project['status'] == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Ongoing" {% if project['status'] == 'Ongoing' %}selected{% endif %}>Ongoing</option>
+                </select>
+
+                <label style="color: #4299e1; font-weight: bold;">Status</label>
+                <select name="status" class="admin-select" required>
+                    <option value="Completed" {% if project['status'] == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Ongoing" {% if project['status'] == 'Ongoing' %}selected{% endif %}>Ongoing</option>
+                </select>
+
+                <label style="color: #4299e1; font-weight: bold;">Project Location</label>
+                <input type="text" name="area" value="{{ project['area'] }}" required>
+
+                <label style="color: #4299e1; font-weight: bold;">Image Filename</label>
+                <input type="text" name="image_file" value="{{ project['image_file'] }}" required>
+                
+                <label style="color: #4299e1; font-weight: bold;">Description</label>
+                <textarea name="description" rows="4" required>{{ project['description'] }}</textarea>
+                
+                <button type="submit" class="btn-primary" style="margin-top: 15px;">Update Project</button>
+                <a href="/admin" style="color: white; margin-left: 20px; text-decoration: none;">Cancel</a>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

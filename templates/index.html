@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nelli Constructions | Visakhapatnam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#">
+            <img src="{{ url_for('static', filename='logo_refined.png') }}" alt="Nelli Constructions Logo" class="logo-img-refined">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#projects">Our Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Nelli Constructions</h1>
+            <h2>Building Visakhapatnam's Future.</h2>
+            <p>Quality craftsmanship and reliable construction since 2016. Delivering residential and commercial excellence.</p>
+            <a href="#projects" class="btn-primary">View Our Work</a>
+        </div>
+    </header>
+
+    <section id="projects" class="portfolio-section">
+        <h2>Featured Projects</h2>
+        
+        <div class="slider-wrapper">
+            <button class="slider-btn left-btn" onclick="slideLeft()">&#10094;</button>
+            
+            <div class="project-slider" id="projectSlider">
+                
+                {% for project in projects %}
+                <div class="project-card">
+                    <div class="card-image" style="height: 200px; background-color: #2a4365; background-image: url('{{ url_for('static', filename='projects/' + project['image_file']) }}'); background-size: cover; background-position: center;"></div>
+                    <div class="card-content">
+                        <h3>{{ project['title'] }}</h3>
+                        <p class="year">Built in {{ project['year'] }} | <strong>{{ project['status'] }}</strong></p>
+                    </div>
+                </div>
+                {% else %}
+                <p style="color: white; padding: 20px; width: 100%; text-align: center;">No projects added to the database yet.</p>
+                {% endfor %}
+                
+            </div>
+            
+            <button class="slider-btn right-btn" onclick="slideRight()">&#10095;</button>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2>Get In Touch</h2>
+        <p class="contact-subtext">Ready to build your dream project in Visakhapatnam? Reach out to us today.</p>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p><strong>Address:</strong> Visakhapatnam, Andhra Pradesh</p>
+                <p><strong>Phone:</strong> +91 8328417108</p>
+                <p><strong>Email:</strong> nelliconstructions@gmail.com</p>
+            </div>
+
+            <div class="contact-form-container">
+                <form class="contact-form" action="/submit_contact" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" rows="5" placeholder="How can we help you?" required></textarea>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Nelli Constructions. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function slideLeft() {
+            document.getElementById('projectSlider').scrollBy({ left: -350, behavior: 'smooth' });
+        }
+        function slideRight() {
+            document.getElementById('projectSlider').scrollBy({ left: 350, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
